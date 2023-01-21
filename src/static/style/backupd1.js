@@ -1,0 +1,73 @@
+<div className="cs-card">
+<div className="cs-prime-bg cs-p-5">
+  {/* title */}
+  <div className="cs-dis-flex cs-hrz-center">
+    <span className="cs-font-22 cs-fw-800">
+      GOLD COMEX
+    </span>
+  </div>
+</div>
+
+<Row className="cs-tm-10">
+  <Col lg={12} xs={12}>
+    <div className="cs-dis-flex cs-hrz-center">
+      <span className="cs-font-22 cs-fw-800">
+        Bid
+      </span>
+    </div>
+  </Col>
+
+  <Col lg={12} xs={12}>
+    <div className="cs-dis-flex cs-hrz-center">
+      <span className="cs-font-22 cs-fw-800">
+        Ask
+      </span>
+    </div>
+  </Col>
+</Row>
+
+<Row className="cs-bm-10">
+  <Col lg={12} xs={12}>
+    <div className="cs-dis-flex cs-hrz-center">
+      <span className={`${"cs-font-22 cs-fw-800 cs-p-5 " + setMcxColor('XAUUSD', 'Bid')}`}>
+        {mcxData.find((x) => x.symbol == "XAUUSD").Bid}
+      </span>
+    </div>
+  </Col>
+
+  <Col lg={12} xs={12}>
+    <div className="cs-dis-flex cs-hrz-center">
+      <span className={`${"cs-font-22 cs-fw-800 cs-p-5 " + setMcxColor('XAUUSD', 'Ask')}`}>
+        {mcxData.find((x) => x.symbol == "XAUUSD").Ask}
+      </span>
+    </div>
+  </Col>
+</Row>
+
+{/* footer */}
+<div className="cs-prime-footer cs-p-5">
+  <Row gutter={[10, 10]}>
+    <Col lg={12} xs={12}>
+      <div className="cs-dis-flex cs-hrz-center">
+        <span className="cs-vt-center cs-dis-flex">
+          <ArrowUpOutlined className="cs-green-clr cs-fw-800 cs-font-22" />
+        </span>
+        <span className="cs-font-22 cs-fw-800 cs-green-clr">
+          {mcxData.find((x) => x.symbol == "XAUUSD").High}
+        </span>
+      </div>
+    </Col>
+
+    <Col lg={12} xs={12}>
+      <div className="cs-dis-flex cs-hrz-center">
+        <span className="cs-vt-center cs-dis-flex">
+          <ArrowDownOutlined className="cs-red-clr cs-fw-800 cs-font-22" />
+        </span>
+        <span className="cs-font-22 cs-fw-800 cs-red-clr">
+          {mcxData.find((x) => x.symbol == "XAUUSD").Low}
+        </span>
+      </div>
+    </Col>
+  </Row>
+</div>
+</div>
