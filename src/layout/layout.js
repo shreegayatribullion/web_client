@@ -14,7 +14,6 @@ import {
   ContactsFilled,
 } from "@ant-design/icons";
 import axios from "axios";
-import logo from "../static/images/icon.png";
 import bg from "../static/images/black.jpeg";
 import { adminUrl } from "../constant";
 
