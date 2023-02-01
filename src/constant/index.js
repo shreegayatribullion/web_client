@@ -1,1 +1,1 @@
-export const adminUrl = "https://shreegayatri.onrender.com/";
+export const adminUrl = "https://server-backup.onrender.com/";

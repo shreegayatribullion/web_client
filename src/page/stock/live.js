@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Row, Col, Spin } from "antd";
+import { Table, Row, Col, Spin, Badge } from "antd";
 import io from "socket.io-client";
 import {
   BrowserView,
@@ -36,6 +36,8 @@ function LiveRate() {
   const [goldSellValue, setGoldSellValue] = useState(false);
   const [silverValue, setSilverValue] = useState(false);
   const [silverSellValue, setSilverSellValue] = useState(false);
+  const [timeGold, setTimeGold] = useState(0);
+  const [timeSilver, setTimeSilver] = useState(0);
   //
   const [mcxData, setMcxData] = useState([]);
   const [upadtedMcxData, setUpdatedMcxData] = useState([]);
@@ -71,7 +73,9 @@ function LiveRate() {
       .then(function (response) {
         setAppdata(response.data.records);
         setWaNo(`https://wa.me/${response.data.records[0].no}`);
-        setTelno(`tel:${response.data.records[0].no}`);
+        // setWaNo(`https://wa.me/${9057569702}`);
+        // setTelno(`tel:${response.data.records[0].no}`);
+        setTelno(`tel:${9057569702}`);
       })
       .catch(function (error) {
         console.log(error);
@@ -155,14 +159,17 @@ function LiveRate() {
     // })
 
     socketAdmin.on("Liverate", function (data) {
+      console.log("data live", data);
       socketAdmin.on("update note", function (data) {
         setAdminData(data.filter((x) => x.active));
       });
       setGoldValue(data.find((x) => x.symbol == "gold").Bid);
       setGoldSellValue(data.find((x) => x.symbol == "gold").Ask);
+      setTimeGold(data.find((x) => x.symbol == "gold").Time);
 
       setSilverValue(data.find((x) => x.symbol == "silver").Bid);
       setSilverSellValue(data.find((x) => x.symbol == "silver").Ask);
+      setTimeSilver(data.find((x) => x.symbol == "silver").Time);
       setMcxData(data);
       setTimeout(() => {
         setUpdatedMcxData(data);
@@ -187,7 +194,12 @@ function LiveRate() {
   return mcxData.length && upadtedMcxData.length && appdata.length ? (
     <div className="cs-90vh cs-bm-120">
       <div className="cs-tm-70">
-        <marquee className="cs-welcome">{appdata[0].title}</marquee>
+        <marquee className="cs-welcome">
+          {/* मशीन चैन92•50 मिलनपटा हाईवे सुपर हाईवे इन्द्रजीत सडक बाक्स करब 94•50
+          छिलाई बाॅल92•50 96•50 मै 83का 87मै महादैव चैन एन्ड ज्वैल्सॅ पर
+          9214693301 */}
+          {appdata[0].title}
+        </marquee>
         <div className="cs-m-15-no-top">
           <a target={"_blank"} href={waNo}>
             <div className="cs-whatsapp cs-dis-flex cs-hrz-center cs-vt-center">
@@ -287,7 +299,7 @@ function LiveRate() {
                       {/* <span className="cs-vt-center cs-dis-flex">
                           <ArrowUpOutlined className="cs-green-clr cs-fw-800 cs-font-22" />
                         </span> */}
-                      <span className="cs-font-22 cs-fw-800 cs-gayatri-regular-color">
+                      <span className="cs-font-23-vmin cs-fw-800 cs-gayatri-regular-color">
                         {mcxData.find((x) => x.symbol == "XAUUSD").High}
                       </span>
                     </div>
@@ -303,7 +315,7 @@ function LiveRate() {
                       {/* <span className="cs-vt-center cs-dis-flex">
                           <ArrowDownOutlined className="cs-red-clr cs-fw-800 cs-font-22" />
                         </span> */}
-                      <span className="cs-font-22 cs-fw-800 cs-gayatri-regular-color">
+                      <span className="cs-font-23-vmin cs-fw-800 cs-gayatri-regular-color">
                         {mcxData.find((x) => x.symbol == "XAUUSD").Low}
                       </span>
                     </div>
@@ -367,7 +379,7 @@ function LiveRate() {
                       {/* <span className="cs-vt-center cs-dis-flex">
                         <ArrowUpOutlined className="cs-green-clr cs-fw-800 cs-font-22" />
                       </span> */}
-                      <span className="cs-font-22 cs-fw-800 cs-gayatri-regular-color">
+                      <span className="cs-font-23-vmin cs-fw-800 cs-gayatri-regular-color">
                         {mcxData.find((x) => x.symbol == "XAGUSD").High}
                       </span>
                     </div>
@@ -383,7 +395,7 @@ function LiveRate() {
                       {/* <span className="cs-vt-center cs-dis-flex">
                         <ArrowDownOutlined className="cs-red-clr cs-fw-800 cs-font-22" />
                       </span> */}
-                      <span className="cs-font-22 cs-fw-800 cs-gayatri-regular-color">
+                      <span className="cs-font-23-vmin cs-fw-800 cs-gayatri-regular-color">
                         {mcxData.find((x) => x.symbol == "XAGUSD").Low}
                       </span>
                     </div>
@@ -394,7 +406,7 @@ function LiveRate() {
 
             <Col lg={6} xs={8}>
               <div className="ui-card">
-                <div className="cs-dis-flex cs-hrz-center cs-fw-800 cs-prime-bg sub-header">
+                <div className="cs-dis-flex cs-hrz-center cs-fw-800 cs-gayatri-regular-bg sub-header cs-upper-case">
                   INR/USD
                 </div>
                 <div className="clr-card" style={{ padding: 8 }}>
@@ -452,7 +464,7 @@ function LiveRate() {
                       {/* <span className="cs-vt-center cs-dis-flex">
                         <ArrowUpOutlined className="cs-green-clr cs-fw-800 cs-font-22" />
                       </span> */}
-                      <span className="cs-font-22 cs-fw-800 cs-gayatri-regular-color">
+                      <span className="cs-font-23-vmin cs-fw-800 cs-gayatri-regular-color">
                         {mcxData.find((x) => x.symbol == "INRSpot").High}
                       </span>
                     </div>
@@ -468,7 +480,7 @@ function LiveRate() {
                       {/* <span className="cs-vt-center cs-dis-flex">
                         <ArrowDownOutlined className="cs-red-clr cs-fw-800 cs-font-22" />
                       </span> */}
-                      <span className="cs-font-22 cs-fw-800 cs-gayatri-regular-color">
+                      <span className="cs-font-23-vmin cs-fw-800 cs-gayatri-regular-color">
                         {mcxData.find((x) => x.symbol == "INRSpot").Low}
                       </span>
                     </div>
@@ -512,59 +524,140 @@ function LiveRate() {
           ) : null}
           {adminData.map((itm, index) => {
             return (
-              <Row key={index} className="cs-main-card cs-p-5 cs-mb-4">
-                <Col lg={8} xs={10} key={index}>
-                  <div className="cs-dis-flex" style={{ marginLeft: 10 }}>
-                    <span className="cs-font-main-header cs-clr-white cs-fw-500">
-                      {itm.name}
-                    </span>
-                  </div>
-                </Col>
+              <Badge.Ribbon text="BUY">
+                <Row key={index} className="cs-main-card cs-p-5 cs-mb-4">
+                  <Col lg={8} xs={10} key={index}>
+                    <div className="cs-dis-flex">
+                      <span>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                      </span>
+                      <span>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                      </span>
+                      <span style={{ marginRight: 5 }}>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                        <div className="green-sq"></div>
+                      </span>
 
-                <Col lg={8} xs={7}>
-                  <div className="cs-dis-flex cs-hrz-center">
-                    {itm.buyactive ? (
-                      itm.isfix ? (
-                        <span className="cs-font-main-header cs-clr-white cs-fw-500">
-                          {+itm.buy}
-                        </span>
+                      <div>
+                        <div className="cs-dis-flex" style={{ marginLeft: 2 }}>
+                          <span className="cs-font-main-header cs-clr-white cs-fw-500">
+                            {itm.name}
+                          </span>
+                        </div>
+                        <div className="cs-time cs-time">
+                          Time: - {itm.src == "gold" ? timeGold : timeSilver}
+                        </div>
+                      </div>
+                    </div>
+                  </Col>
+
+                  <Col
+                    lg={8}
+                    xs={7}
+                    className="cs-dis-flex cs-vt-center cs-hrz-center"
+                  >
+                    <div className="cs-dis-flex cs-hrz-center">
+                      {itm.buyactive ? (
+                        itm.isfix ? (
+                          <span className="cs-font-main-header cs-clr-white cs-fw-500">
+                            {+itm.buy}
+                          </span>
+                        ) : (
+                          <span className="cs-font-main-header cs-clr-white cs-fw-500">
+                            {+itm.buy +
+                              +(itm.src == "gold" ? goldValue : silverValue)}
+                          </span>
+                        )
                       ) : (
                         <span className="cs-font-main-header cs-clr-white cs-fw-500">
-                          {+itm.buy +
-                            +(itm.src == "gold" ? goldValue : silverValue)}
+                          ---
                         </span>
-                      )
-                    ) : (
-                      <span className="cs-font-main-header cs-clr-white cs-fw-500">
-                        ---
-                      </span>
-                    )}
-                  </div>
-                </Col>
+                      )}
+                    </div>
+                  </Col>
 
-                <Col lg={8} xs={7}>
-                  <div className="cs-dis-flex cs-hrz-center">
-                    {itm.sellactive ? (
-                      itm.isfix ? (
-                        <span className="cs-font-main-header cs-clr-white cs-fw-500">
-                          {+itm.sell}
-                        </span>
+                  <Col
+                    lg={8}
+                    xs={7}
+                    className="cs-dis-flex cs-vt-center cs-hrz-center"
+                  >
+                    <div className="cs-dis-flex cs-hrz-center">
+                      {itm.sellactive ? (
+                        itm.isfix ? (
+                          <span className="cs-font-main-header cs-clr-white cs-fw-500">
+                            {+itm.sell}
+                          </span>
+                        ) : (
+                          <span className="cs-font-main-header cs-clr-white cs-fw-500">
+                            {+itm.sell +
+                              +(itm.src == "gold"
+                                ? goldSellValue
+                                : silverSellValue)}
+                          </span>
+                        )
                       ) : (
                         <span className="cs-font-main-header cs-clr-white cs-fw-500">
-                          {+itm.sell +
-                            +(itm.src == "gold"
-                              ? goldSellValue
-                              : silverSellValue)}
+                          ---
                         </span>
-                      )
-                    ) : (
-                      <span className="cs-font-main-header cs-clr-white cs-fw-500">
-                        ---
-                      </span>
-                    )}
-                  </div>
-                </Col>
-              </Row>
+                      )}
+                    </div>
+                  </Col>
+                </Row>
+              </Badge.Ribbon>
             );
           })}
 
@@ -626,9 +719,9 @@ function LiveRate() {
                   <div className="cs-dis-flex cs-hrz-center">
                     <div className="cs-dis-flex cs-hrz-center cs-vt-center">
                       <span className="cs-vt-center cs-dis-flex">
-                        <ArrowUpOutlined className="cs-green-clr cs-fw-800 cs-font-22" />
+                        <ArrowUpOutlined className="cs-green-clr cs-fw-800 cs-font-22-vmin" />
                       </span>
-                      <span className="cs-font-22 cs-fw-800 cs-green-clr">
+                      <span className="cs-font-22-vmin cs-fw-800 cs-prime-clr">
                         {mcxData.find((x) => x.symbol == "gold").High}
                       </span>
                     </div>
@@ -642,9 +735,9 @@ function LiveRate() {
 
                     <div className="cs-dis-flex cs-hrz-center cs-vt-center">
                       <span className="cs-vt-center cs-dis-flex">
-                        <ArrowDownOutlined className="cs-red-clr cs-fw-800 cs-font-22" />
+                        <ArrowDownOutlined className="cs-red-clr cs-fw-800 cs-font-22-vmin" />
                       </span>
-                      <span className="cs-font-22 cs-fw-800 cs-red-clr">
+                      <span className="cs-font-22-vmin cs-fw-800 cs-prime-clr">
                         {mcxData.find((x) => x.symbol == "gold").Low}
                       </span>
                     </div>
@@ -655,14 +748,14 @@ function LiveRate() {
 
             <Col lg={6} xs={12}>
               <div className="ui-card">
-                <div className="cs-dis-flex cs-hrz-center cs-fw-800 cs-prime-bg sub-header">
+                <div className="cs-dis-flex cs-hrz-center cs-fw-800 cs-prime-bg sub-header cs-upper-case">
                   Silver MCX
                 </div>
                 <div className="clr-card" style={{ padding: 6 }}>
                   <Row>
                     <Col lg={12} xs={12}>
                       <div className="cs-dis-flex cs-hrz-center">
-                        <span className="cs-font-p-25vm cs-fw-800 cs-gayatri-regular-color">
+                        <span className="cs-font-p-25vm cs-fw-800 cs-gayatri-regular-color cs-upper-case">
                           Bid
                         </span>
                       </div>
@@ -670,7 +763,7 @@ function LiveRate() {
 
                     <Col lg={12} xs={12}>
                       <div className="cs-dis-flex cs-hrz-center">
-                        <span className="cs-font-p-25vm cs-fw-800 cs-gayatri-regular-color">
+                        <span className="cs-font-p-25vm cs-fw-800 cs-gayatri-regular-color cs-upper-case">
                           Ask
                         </span>
                       </div>
@@ -708,9 +801,9 @@ function LiveRate() {
                   <div className="cs-dis-flex cs-hrz-center">
                     <div className="cs-dis-flex cs-hrz-center cs-vt-center">
                       <span className="cs-vt-center cs-dis-flex">
-                        <ArrowUpOutlined className="cs-green-clr cs-fw-800 cs-font-22" />
+                        <ArrowUpOutlined className="cs-green-clr cs-fw-800 cs-font-22-vmin" />
                       </span>
-                      <span className="cs-font-22 cs-fw-800 cs-green-clr">
+                      <span className="cs-font-22-vmin cs-fw-800 cs-prime-clr">
                         {mcxData.find((x) => x.symbol == "silver").High}
                       </span>
                     </div>
@@ -724,9 +817,9 @@ function LiveRate() {
 
                     <div className="cs-dis-flex cs-hrz-center cs-vt-center">
                       <span className="cs-vt-center cs-dis-flex">
-                        <ArrowDownOutlined className="cs-red-clr cs-fw-800 cs-font-22" />
+                        <ArrowDownOutlined className="cs-red-clr cs-fw-800 cs-font-22-vmin" />
                       </span>
-                      <span className="cs-font-22 cs-fw-800 cs-red-clr">
+                      <span className="cs-font-22-vmin cs-fw-800 cs-prime-clr">
                         {mcxData.find((x) => x.symbol == "silver").Low}
                       </span>
                     </div>
@@ -744,7 +837,7 @@ function LiveRate() {
                   <Row>
                     <Col lg={12} xs={12}>
                       <div className="cs-dis-flex cs-hrz-center">
-                        <span className="cs-font-p-25vm cs-fw-800 cs-gayatri-regular-color">
+                        <span className="cs-font-p-25vm cs-fw-800 cs-gayatri-regular-color cs-upper-case">
                           Bid
                         </span>
                       </div>
@@ -752,7 +845,7 @@ function LiveRate() {
 
                     <Col lg={12} xs={12}>
                       <div className="cs-dis-flex cs-hrz-center">
-                        <span className="cs-font-p-25vm cs-fw-800 cs-gayatri-regular-color">
+                        <span className="cs-font-p-25vm cs-fw-800 cs-gayatri-regular-color cs-upper-case">
                           Ask
                         </span>
                       </div>
@@ -790,9 +883,9 @@ function LiveRate() {
                   <div className="cs-dis-flex cs-hrz-center">
                     <div className="cs-dis-flex cs-hrz-center cs-vt-center">
                       <span className="cs-vt-center cs-dis-flex">
-                        <ArrowUpOutlined className="cs-green-clr cs-fw-800 cs-font-22" />
+                        <ArrowUpOutlined className="cs-green-clr cs-fw-800 cs-font-22-vmin" />
                       </span>
-                      <span className="cs-font-22 cs-fw-800 cs-green-clr">
+                      <span className="cs-font-22-vmin cs-fw-800 cs-prime-clr">
                         {mcxData.find((x) => x.symbol == "goldnext").High}
                       </span>
                     </div>
@@ -806,9 +899,9 @@ function LiveRate() {
 
                     <div className="cs-dis-flex cs-hrz-center cs-vt-center">
                       <span className="cs-vt-center cs-dis-flex">
-                        <ArrowDownOutlined className="cs-red-clr cs-fw-800 cs-font-22" />
+                        <ArrowDownOutlined className="cs-red-clr cs-fw-800 cs-font-22-vmin" />
                       </span>
-                      <span className="cs-font-22 cs-fw-800 cs-red-clr">
+                      <span className="cs-font-22-vmin cs-fw-800 cs-prime-clr">
                         {mcxData.find((x) => x.symbol == "goldnext").Low}
                       </span>
                     </div>
@@ -819,7 +912,7 @@ function LiveRate() {
 
             <Col lg={6} xs={12}>
               <div className="ui-card">
-                <div className="cs-dis-flex cs-hrz-center cs-fw-800 cs-prime-bg sub-header">
+                <div className="cs-dis-flex cs-hrz-center cs-fw-800 cs-prime-bg sub-header cs-upper-case">
                   SILVER MCX NEXT
                 </div>
                 <div className="clr-card" style={{ padding: 6 }}>
@@ -834,7 +927,7 @@ function LiveRate() {
 
                     <Col lg={12} xs={12}>
                       <div className="cs-dis-flex cs-hrz-center">
-                        <span className="cs-font-p-25vm cs-fw-800 cs-gayatri-regular-color">
+                        <span className="cs-font-p-25vm cs-fw-800 cs-gayatri-regular-color cs-upper-case">
                           Ask
                         </span>
                       </div>
@@ -872,9 +965,9 @@ function LiveRate() {
                   <div className="cs-dis-flex cs-hrz-center">
                     <div className="cs-dis-flex cs-hrz-center cs-vt-center">
                       <span className="cs-vt-center cs-dis-flex">
-                        <ArrowUpOutlined className="cs-green-clr cs-fw-800 cs-font-22" />
+                        <ArrowUpOutlined className="cs-green-clr cs-fw-800 cs-font-22-vmin" />
                       </span>
-                      <span className="cs-font-22 cs-fw-800 cs-green-clr">
+                      <span className="cs-font-22-vmin cs-fw-800 cs-prime-clr">
                         {mcxData.find((x) => x.symbol == "silvernext").High}
                       </span>
                     </div>
@@ -888,9 +981,9 @@ function LiveRate() {
 
                     <div className="cs-dis-flex cs-hrz-center cs-vt-center">
                       <span className="cs-vt-center cs-dis-flex">
-                        <ArrowDownOutlined className="cs-red-clr cs-fw-800 cs-font-22" />
+                        <ArrowDownOutlined className="cs-red-clr cs-fw-800 cs-font-22-vmin" />
                       </span>
-                      <span className="cs-font-22 cs-fw-800 cs-red-clr">
+                      <span className="cs-font-22-vmin cs-fw-800 cs-prime-clr">
                         {mcxData.find((x) => x.symbol == "silvernext").Low}
                       </span>
                     </div>

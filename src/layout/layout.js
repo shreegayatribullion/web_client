@@ -8,7 +8,7 @@ import {
   isMobile,
 } from "react-device-detect";
 import {
-  HomeOutlined,
+  LineChartOutlined,
   BankOutlined,
   UserOutlined,
   ContactsFilled,
@@ -44,7 +44,7 @@ const LayoutComp = () => {
     axios
       .get(adminUrl + "appinfo")
       .then(function (response) {
-        setAppdata(response.data.records[0].header);
+        setAppdata(response.data.records[0].subheader);
       })
       .catch(function (error) {
         console.log(error);
@@ -55,7 +55,7 @@ const LayoutComp = () => {
     <>
       <Layout
         className="cs-layout"
-        style={{ height: "100vh", backgroundImage: `url(${bg})` }}
+        style={{ height: "150vh", backgroundImage: `url(${bg})` }}
       >
         <BrowserView>
           <Header className="cs-header-color">
@@ -88,7 +88,7 @@ const LayoutComp = () => {
                 </Col> */}
                 <Col span={12}>
                   <div className="cs-dis-flex cs-hrz-center cs-font-23">
-                    Shree Gayatri Bullions
+                    Shree Gayatri Bullion
                   </div>
                 </Col>
               </Row>
@@ -112,7 +112,13 @@ const LayoutComp = () => {
         </Content>
 
         <div className="cs-bottom-nav">
-          <marquee className="cs-welcome">Welcome to Shree Gayatri Bullions</marquee>
+          {appdata ? (
+            <marquee className="cs-welcome">
+              {appdata}
+              {/* घर पर मांगलिक कार्य होने के कारण23/01/2023 सै 27/01/2023 तक अवकाश
+              रहैगा */}
+            </marquee>
+          ) : null}
 
           <Row>
             <Col xs={8}>
@@ -126,7 +132,9 @@ const LayoutComp = () => {
                   }
                 >
                   <div className="cs-dis-flex cs-hrz-center">
-                    <HomeOutlined style={{ color: "#ffff", fontSize: 21 }} />
+                    <LineChartOutlined
+                      style={{ color: "#ffff", fontSize: 21 }}
+                    />
                   </div>
                   <div className="cs-dis-flex cs-hrz-center cs-tm-5 cs-title">
                     Live rate
